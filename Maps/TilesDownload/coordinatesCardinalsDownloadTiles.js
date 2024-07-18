@@ -2,8 +2,13 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
+// Standard
 const baseTilesUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const saveDirectory = './coordinatestiles/andorra';
+
+// Satelit
+//const baseTilesUrl = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+//const saveDirectory = './coordinatesarghistiles/andorra';
 
 // Funció per comprovar si existeix un fitxer
 async function fileExists(filePath) {
