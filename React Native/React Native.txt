@@ -3,3 +3,7 @@ https://docs.expo.dev/versions/latest/sdk/filesystem/
 
 
 == Maps ==
+=== Offline ===
+(No) react-native-maps: android version required an internet connection before the map would appear the first time: https://github.com/react-native-maps/react-native-maps/issues/255
+maplibre-react-native: Vectorial tiles.
+Mapbox react native: Original project of Maplibre. Vectorial tiles
