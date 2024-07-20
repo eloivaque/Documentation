@@ -13,3 +13,6 @@ https://docs.expo.dev/versions/latest/sdk/filesystem/
 - Google maps needs API Key, and isn't free if there are many call request.
 - Maplibre: Open Source partial parts of project. Server GL vectorial tiles is Open Source, but not all maps, and need to pay if there are many call request.
 - Mapbox: isn't free.
+
+== Online ==
+- react-native-osmdroid: Only tiles online. Not possible locally https://github.com/Splicer97/react-native-osmdroid/issues/3
