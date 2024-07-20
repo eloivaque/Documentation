@@ -4,6 +4,12 @@ https://docs.expo.dev/versions/latest/sdk/filesystem/
 
 == Maps ==
 === Offline ===
-(No) react-native-maps: android version required an internet connection before the map would appear the first time: https://github.com/react-native-maps/react-native-maps/issues/255
-maplibre-react-native: Vectorial tiles.
-Mapbox react native: Original project of Maplibre. Vectorial tiles
+- (No) react-native-maps: android version required an internet connection before the map would appear the first time: https://github.com/react-native-maps/react-native-maps/issues/255
+- maplibre-react-native: Vectorial tiles.
+- Mapbox react native: Original project of Maplibre. Vectorial tiles
+
+=== Free Maps Service ===
+- Lefleat + Openstreetmaps + Vebview
+- Google maps needs API Key, and isn't free if there are many call request.
+- Maplibre: Open Source partial parts of project. Server GL vectorial tiles is Open Source, but not all maps, and need to pay if there are many call request.
+- Mapbox: isn't free.
