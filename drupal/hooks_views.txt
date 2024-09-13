@@ -2,7 +2,7 @@
 * Show view list of content type that first elements are entities referenced in a field of paragraphs and then show the other content without in this field.
 * The view respect order of entity referenced field inside paragraphs.
 */
-function radiosabadell_pagines_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+function radio_pagines_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == 'paragraphs' && $view->current_display == 'llistat_programes') {
     $entity_id = (!empty($view->args[0])) ? $view->args[0] : 0;
 
