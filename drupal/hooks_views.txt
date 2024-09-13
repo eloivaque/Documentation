@@ -1,1 +1,19 @@
+/* HIGHLIGHT ENTITY REFERENCE FIELD IN PARAGRAPHS AND VIEW LIST
+* Show view list of content type that first elements are entities referenced in a field of paragraphs and then show the other content without in this field.
+* The view respect order of entity referenced field inside paragraphs.
+*/
+function radiosabadell_pagines_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == 'paragraphs' && $view->current_display == 'llistat_programes') {
+    $entity_id = (!empty($view->args[0])) ? $view->args[0] : 0;
 
+    $sql = <<<SQL
+      CASE 
+        WHEN paragraph__field_programes_destacats.delta IS NOT NULL AND paragraph__field_programes_destacats.entity_id = {$entity_id}
+        THEN paragraph__field_programes_destacats.delta 
+        ELSE 1000 
+      END
+    SQL;
+    $query->addField(NULL, $sql, 'programes_destacats_delta');
+    $query->addOrderBy(NULL, $sql, 'ASC', 'programes_destacats_delta');
+  }
+}
