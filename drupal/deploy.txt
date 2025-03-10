@@ -1,0 +1,7 @@
+= Before deploy =
+
+== phpcompatibility ==
+Check PHP code of modules is compatible with PHP versión.
+  
+composer require --dev "phpcompatibility/php-compatibility:dev-develop as 9.3.6"
+./vendor/bin/phpcs -d memory_limit=-1 -p web/modules/ --standard=PHPCompatibility --runtime-set testVersion 8.3 -vvv
