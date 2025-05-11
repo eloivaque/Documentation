@@ -1,0 +1,13 @@
+# Hide options on select element. Remember allow element filtred "$tid == $_GET['field_tags_target_id'][0]".
+if (isset($form['field_tags_target_id'])) {
+      // Obtenir les opcions actuals
+  $current_options = $form['field_tags_target_id']['#options'];
+          // Filtrar: mantenir només les opcions que existeixin a $valid_terms
+      foreach ($current_options as $tid => $name) {
+        if (isset($valid_terms[$tid]) or $tid == $_GET['field_tags_target_id'][0]) {
+          $new_options[$tid] = $name;
+        }
+      }
+      $form['field_tags_target_id']['#options'] = $new_options;
+    }
+    }
