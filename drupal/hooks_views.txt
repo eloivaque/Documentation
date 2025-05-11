@@ -17,3 +17,70 @@ function radio_pagines_views_query_alter(ViewExecutable $view, QueryPluginBase $
     $query->addOrderBy(NULL, $sql, 'ASC', 'programes_destacats_delta');
   }
 }
+
+
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Database\Database;
+
+/**
+ * Implementa hook_form_FORM_ID_alter().
+ */
+function general_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] === 'views-exposed-form-cerca-page-1') {
+    $selected_tids = isset($_GET['field_tags_target_id']) ? $_GET['field_tags_target_id'] : [];
+
+    $database = \Drupal::database();
+    $query = $database->select('node_field_data', 'n');
+    $query->fields('n', ['nid']);
+    $query->condition('n.status', 1);
+    $query->condition('n.type', 'content');
+
+    if (!empty($selected_tids)) {
+      $query->join('taxonomy_index', 'ti', 'ti.nid = n.nid');
+      $query->condition('ti.tid', $selected_tids, 'IN');
+      $query->groupBy('n.nid');
+      $query->having('COUNT(DISTINCT ti.tid) = :count', [':count' => count($selected_tids)]);
+    }    
+
+    $query->distinct();
+    $result = $query->execute();
+
+    $nids = [];
+    foreach ($result as $row) {
+      $nids[] = $row->nid;
+    }
+
+    if (!empty($nids)) {
+      $query = $database->select('node__field_tags', 't');
+      $query->fields('t', ['entity_id', 'field_tags_target_id']);
+      $query->condition('t.entity_id', $nids, 'IN');
+      $result = $query->execute();
+
+      $related_tids = [];
+      foreach ($result as $record) {
+        $tid = $record->field_tags_target_id;
+        if (!in_array($tid, $selected_tids)) {
+          $related_tids[$tid] = TRUE;
+        }
+      }
+    }
+
+    if (!empty($related_tids)) {
+      if (isset($form['field_tags_target_id']) && !empty($_GET['field_tags_target_id'])) {
+        $current_options = $form['field_tags_target_id']['#options'];
+        $new_options = [];
+
+        foreach ($current_options as $tid => $name) {
+          if (isset($related_tids[$tid]) || in_array($tid, $_GET['field_tags_target_id'])) {
+            $new_options[$tid] = $name;
+          }
+        }
+
+        $form['field_tags_target_id']['#options'] = $new_options;
+      }
+    }
+  }
+}
+
