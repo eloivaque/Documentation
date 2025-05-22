@@ -23,3 +23,18 @@ Iteration fields when it is numeric.
 
   </div>
 </section>
+
+== Paragraphs: Iteration 2  ==
+
+{% set total = content.field_paragraphs['#items']|length %}
+        {% for i in 0..(total - 1) %}
+            {{ content.field_paragraphs[i] }}
+        {% endfor %}
+
+== Paragraphs: Iteration 3 ==
+
+        {% for item in paragraph.field_paragraphs %}
+        {% if item.entity %}
+            {{ drupal_entity('paragraph', item.target_id, 'default') }}
+        {% endif %}
+        {% endfor %}
