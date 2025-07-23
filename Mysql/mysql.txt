@@ -1,0 +1,9 @@
+== mariadb: Error Main PID: 15631 (code=dumped, signal=SEGV) ==
+
+In
+
+/etc/my.cnf
+
+I added line
+
+innodb_force_recovery = 3
