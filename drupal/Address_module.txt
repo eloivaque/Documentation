@@ -1,0 +1,62 @@
+
+
+
+https://www.drupal.org/project/address
+
+To translate or change the order of the subfields of the address module field, it must be done through an afterbuild, since doing it directly in the alter hook does not work.
+
+/**
+ * Hook form alter del formulari concret de center (formulari públic).
+ */
+function ma_core_form_node_center_public_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Comprova l'existència de l'element address.
+  if (isset($form['field_address']['widget'][0])) {
+
+    $form['field_address']['widget'][0]['#after_build'][] = 'ma_core_address_after_build';
+    //var_dump($form['field_address']['widget'][0]['#after_build']);
+    
+  }
+  
+}
+
+/**
+ * After build: reordena els sub-camps de l'element address.
+ *
+ * S'executarà després que el AddressDefaultWidget hagi creat els subelements.
+ */
+function ma_core_address_after_build($element, FormStateInterface $form_state) {
+ 
+//var_dump('<pre>',$element['postal_code']);
+  // Si prefereixes, també pots reordenar labels o afegir classes aquí.
+  $element['address']['administrative_area']['#weight'] = 0.010;
+  $element['address']['locality']['#weight'] = 0.011;
+  $element['address']['postal_code']['#weight'] = 0.012;
+  return $element;
+}
+
+
+function ma_core_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+ if ($form_id == 'webform_submission_kit_mayores_amigos_node_27_add_form') {
+  // Ver la estructura completa después de todos los hooks
+  $form['#after_build'][] = function($form, FormStateInterface $form_state) {
+
+    $form['elements']['address']["given_name"]["#title"] = ("Nombre de la residencia o refugio");
+    $form['elements']['address']["address_line1"]["#title"] = ("Dirección de envío del kit");
+
+     // Reordenar campos - valores más bajos aparecen primero
+  $form['elements']['address']['given_name']['#weight'] = 10;
+  $form['elements']['address']['family_name']['#weight'] = 1;
+  $form['elements']['address']['organization']['#weight'] = 2;
+  $form['elements']['address']['address_line1']['#weight'] = 3;
+  $form['elements']['address']['address_line2']['#weight'] = 4;
+  $form['elements']['address']['postal_code']['#weight'] = 5;
+  $form['elements']['address']['locality']['#weight'] = 6;
+  $form['elements']['address']['administrative_area']['#weight'] = 7;
+  $form['elements']['address']['country_code']['#weight'] = 8;
+        dpm($form['elements']['address']); // Ver estructura final
+    return $form;
+  };
+
+ }
