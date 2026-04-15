@@ -1,2 +1,4 @@
 = Text to voice =
 https://voicebox.sh/
+https://github.com/OpenMOSS/MOSS-TTS-Nano
+
