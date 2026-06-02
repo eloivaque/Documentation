@@ -2,3 +2,7 @@
 Temporaly change key to git push and pull from other user
 ssh-add ~/.ssh/id_ed25519
 git push origin master
+
+== SSH ==
+Conect with diferent ssh key
+ssh -i ~/.ssh/id_rsa_diferent user@example.com
