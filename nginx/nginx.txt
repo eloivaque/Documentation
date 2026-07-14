@@ -1,9 +1,13 @@
-On drupal css and js compressed, needs tu use try_files.
+Drupal aggregated (compressed) CSS and JS require `try_files` to work correctly.
+
+When a CSS or JS file is requested:
+- If the file exists, Nginx serves it directly.
+- If the file does not exist (for example, after a cache clear or before Drupal has generated the aggregated asset), the request is passed to `index.php`, allowing Drupal to generate the file instead of returning a 404.
+
 location ~* \.(css|js|jpg|jpeg|gif|png|svg|ico|woff|woff2)$ {
-        try_files $uri /index.php?$query_string;
+    try_files $uri /index.php?$query_string;
 
-        expires max;
+    expires max;
 
-        access_log off;
-
-    }
+    access_log off;
+}
