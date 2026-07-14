@@ -1,0 +1,9 @@
+On drupal css and js compressed, needs tu use try_files.
+location ~* \.(css|js|jpg|jpeg|gif|png|svg|ico|woff|woff2)$ {
+        try_files $uri /index.php?$query_string;
+
+        expires max;
+
+        access_log off;
+
+    }
