@@ -1,0 +1,42 @@
+CONFIGURE PHP 8.4 FOR A SPECIFIC APACHE DIRECTORY
+
+This configuration allows a single project to use PHP 8.4 while keeping
+PHP 8.5 as the default version for all other websites hosted on the same
+server.
+
+1.  INSTALL PHP 8.4 AND PHP-FPM
+
+Install PHP 8.4 and the required extensions:
+
+sudo apt update
+
+sudo apt install php8.4-fpm php8.4-cli
+php8.4-mysql php8.4-curl php8.4-gd
+php8.4-mbstring php8.4-xml php8.4-zip
+php8.4-intl php8.4-bcmath php8.4-opcache
+
+2.  CREATE AN APACHE CONFIGURATION FILE
+
+Create a dedicated Apache configuration file:
+
+sudo nano /etc/apache2/conf-available/webexample-php84.conf
+
+Add the following configuration, replacing the directory path with the
+actual project path:
+
+<Directory "/var/www/html/webs/webexample">
+    <FilesMatch "\.php$">
+        SetHandler "proxy:unix:/run/php/php8.4-fpm.sock|fcgi://localhost"
+    </FilesMatch>
+</Directory>
+
+This configuration tells Apache to process PHP files inside this
+directory using PHP 8.4-FPM.
+
+3.  ENABLE THE APACHE CONFIGURATION
+
+sudo a2enconf webexample-php84
+
+If the configuration is valid, reload Apache:
+
+sudo systemctl reload apache2
